@@ -7,12 +7,20 @@ type User @model {
   starredDecks: [DeckStar!] @relation(name: "UserDeckStars")
   comments: [Comment!] @relation(name: "UserComments")
   decks: [Deck!] @relation(name: "UserDecks")
+  email: String @isUnique
+  password: String
+  facebookUserId: String @isUnique
+  facebookEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Follower @model {
   id: ID! @isUnique
   to: User! @relation(name: "Following")
   from: User! @relation(name: "Followers")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Set @model {
@@ -20,6 +28,8 @@ type Set @model {
   name: String!
   code: String!
   cards: [Card!]! @relation(name: "SetCards")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Card @model {
@@ -41,6 +51,8 @@ type Card @model {
   toughness: String
   type: String
   decks: [DeckCard!] @relation(name: "CardDecks")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Deck @model {
@@ -52,6 +64,8 @@ type Deck @model {
   comments: [Comment!] @relation(name: "DeckComments")
   stars: [DeckStar!] @relation(name: "DeckStars")
   cards: [DeckCard!]! @relation(name: "DeckCards")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type DeckCard @model {
@@ -72,4 +86,32 @@ type Comment @model {
   author: User! @relation(name: "UserComments")
   text: String!
   deck: Deck @relation(name: "DeckComments")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
+
+# added by email-password template: (please uncomment)
+# type User @model {
+#   # Required system field:
+#   id: ID! @isUnique # read-only (managed by Graphcool)
+# 
+#   # Optional system fields (remove if not needed):
+#   createdAt: DateTime! # read-only (managed by Graphcool)
+#   updatedAt: DateTime! # read-only (managed by Graphcool)
+# 
+# }
+# 
+
+
+# added by facebook template: (please uncomment)
+# type User @model {
+#   # Required system field:
+#   id: ID! @isUnique # read-only (managed by Graphcool)
+# 
+#   # Optional system fields (remove if not needed):
+#   createdAt: DateTime! # read-only (managed by Graphcool)
+#   updatedAt: DateTime! # read-only (managed by Graphcool)
+# 
+# }
+# 
+
