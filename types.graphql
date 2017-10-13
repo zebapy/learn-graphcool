@@ -1,0 +1,75 @@
+type User @model {
+  id: ID! @isUnique
+  name: String!
+  username: String! @isUnique
+  followers: [Follower!] @relation(name: "Followers")
+  following: [Follower!] @relation(name: "Following")
+  starredDecks: [DeckStar!] @relation(name: "UserDeckStars")
+  comments: [Comment!] @relation(name: "UserComments")
+  decks: [Deck!] @relation(name: "UserDecks")
+}
+
+type Follower @model {
+  id: ID! @isUnique
+  to: User! @relation(name: "Following")
+  from: User! @relation(name: "Followers")
+}
+
+type Set @model {
+  id: ID! @isUnique
+  name: String!
+  code: String!
+  cards: [Card!]! @relation(name: "SetCards")
+}
+
+type Card @model {
+  id: ID! @isUnique
+  artist: String
+  cmc: String
+  cost: String
+  flavor: String
+  loyalty: String
+  multiverseId: String!
+  name: String!
+  number: String
+  oracle: String
+  power: String
+  rarity: String
+  set: Set! @relation(name: "SetCards")
+  side: String
+  subtype: String
+  toughness: String
+  type: String
+  decks: [DeckCard!] @relation(name: "CardDecks")
+}
+
+type Deck @model {
+  id: ID! @isUnique
+  name: String!
+  description: String
+  format: String!
+  author: User! @relation(name: "UserDecks")
+  comments: [Comment!] @relation(name: "DeckComments")
+  stars: [DeckStar!] @relation(name: "DeckStars")
+  cards: [DeckCard!]! @relation(name: "DeckCards")
+}
+
+type DeckCard @model {
+  id: ID! @isUnique
+  deck: Deck! @relation(name: "DeckCards")
+  card: [Card!]! @relation(name: "CardDecks")
+  count: Int!
+}
+
+type DeckStar @model {
+  id: ID! @isUnique
+  deck: Deck! @relation(name: "DeckStars")
+  user: User! @relation(name: "UserDeckStars")
+}
+
+type Comment @model {
+  id: ID! @isUnique
+  author: User! @relation(name: "UserComments")
+  text: String!
+  deck: Deck @relation(name: "DeckComments")
+}
